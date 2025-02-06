@@ -249,3 +249,62 @@ es.indices.get_mapping(index='travel')
 es.search(index="travel", body={"from": 0, "size": 0, "query": {"match_all": {}}, "aggs": {
                   "country": {
                       "date_histogram": {"field": "datetime", "calendar_interval": "year"}}}})
+
+
+
+## Analyseur
+#Analyseur exemple :
+{
+  "settings": {
+    "analysis": { 
+      "filter": {
+        "french_elision": {
+          "type": "elision",
+          "articles_case": True,
+          "articles": ["l", "m", "t", "qu", "n", "s", "j", "d", "c", "jusqu", "quoiqu", "lorsqu", "puisqu"]
+        },
+        "french_synonym": {
+          "type": "synonym",
+          "ignore_case": True,
+          "expand": True,
+          "synonyms": [
+            "réviser, étudier, bosser",
+            "mayo, mayonnaise",
+            "grille, toaste"
+          ]
+        },
+        "french_stemmer": {
+          "type": "stemmer",
+          "language": "light_french"
+        }
+      },
+      "analyzer": {
+        "french_heavy": {
+          "tokenizer": "icu_tokenizer",
+          "filter": [
+            "french_elision",
+            "icu_folding",
+            "french_synonym",
+            "french_stemmer"
+          ]
+        },
+        "french_light": {
+          "tokenizer": "icu_tokenizer",
+          "filter": [
+            "french_elision",
+            "icu_folding"
+          ]
+        }
+      }
+    }
+  }
+}
+
+# Traduction
+phraseFr = {"text" : "Une phrase en français :) ..."}
+print (es.index(index="french", id=1, body=phraseFr))
+
+# Analyseur français
+print (es.indices.analyze(index="french",body={
+  "text" : "Je dois bosser pour mon QCM sinon je vais avoir une sale note :( ..."
+}))
