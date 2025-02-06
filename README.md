@@ -41,7 +41,18 @@ ELK Stack :
         curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/products/_bulk --data-binary "@products.json"
         printf "\n✅ Insertion products index to elastic node OK ✅ "
         
-  - Pour ELK Python API : 
+  - Pour Elastic Python API : 
           - docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.11.1
           - Exécuter le script python : python3 elk_test.py
-                            
+
+  - Pour ELK CSV :
+          - docker-compose up -d
+          - curl -X GET "0.0.0.0:9200/csv-data/_search?q=*" | jq
+
+  - Pour ELK JSON :
+          - docker-compose up -d
+          - curl -X GET "0.0.0.0:9200/json-data/_search?q=*" | jq
+
+  - Pour ELK Serveur Apache Kibana :
+          - docker-compose up -d
+          - Se connecter au localhost:5601
