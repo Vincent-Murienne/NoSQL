@@ -56,3 +56,7 @@ ELK Stack :
   - Pour ELK Serveur Apache Kibana :
           - docker-compose up -d
           - Se connecter au localhost:5601
+
+  - Pour ELK Stack avec script Python logs pour diagram (with Filebeat) :
+          - docker-compose up -d
+          - Se connecter au localhost:5601
