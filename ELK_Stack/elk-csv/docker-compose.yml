@@ -1,0 +1,52 @@
+version: "3"
+services:
+  elasticsearchMod3:
+    image: elasticsearch:7.6.2
+    container_name: elasticsearchMod3
+    hostname: elasticsearchMod3
+    restart: always
+    environment:
+      - "discovery.type=single-node"
+    ports:
+      - 9200:9200
+      - 9300:9300
+    networks:
+      - dockerelk
+    volumes:
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+
+  logstashMod3:
+    image: logstash:7.6.2
+    container_name: logstashMod3
+    hostname: logstashMod3
+    ports:
+      - 9600:9600
+      - 8089:8089
+    restart: always
+    links:
+      - elasticsearchMod3:elasticsearchMod3
+    depends_on:
+      - elasticsearchMod3
+    networks:
+      - dockerelk
+    volumes:
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - ./data/data-json.log:/usr/share/logstash/external-data/data-json.log
+      # - ./data/data.csv:/usr/share/logstash/external-data/data.csv
+
+  kibanaMod3:
+    image: kibana:7.6.2
+    container_name: kibanaMod3
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - dockerelk
+    depends_on:
+      - elasticsearchMod3
+
+networks:
+  dockerelk:
+    driver: bridge
