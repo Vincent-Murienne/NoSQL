@@ -1,0 +1,1 @@
+xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearchPy:9200" ]

@@ -1,0 +1,100 @@
+GET /_cat/indices?v
+
+##Tous les documents
+GET /python-logs-2025.02.06/_search
+
+##5 derniers documents ajoutés à notre python-logs-2025.02.06
+GET /python-logs-2025.02.06/_search
+{
+  "query": {
+    "match_all": {}
+  },
+  "sort": [
+    {
+      "@timestamp": {
+        "order": "desc"
+      }
+    }
+  ],
+  "size": 5
+}
+
+##Rechercher des documents dans la plage de dates et d'heures spécifiés
+GET python-logs-2025.02.06/_search
+{
+  "query": {
+    "bool": {
+      "must": [
+        {
+          "range": {
+            "@timestamp": {
+              "gte": "2023-03-31T16:45:00",
+              "lte": "2023-03-31T16:55:00"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+##Créer un index de test
+PUT /index_test 
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 2
+  },
+  "mappings": {
+    "properties": {
+      "field1": { "type": "text" },
+      "field2": { "type": "keyword" },
+      "field3": { "type": "date" }
+    }
+  }
+}
+
+##Obtenir notre index
+GET /index_test/_mapping
+
+##Renvoi les 10 premiers résultats correspondant à la requête « erreur » dans le champ de message.
+GET python-logs-2025.02.06/_search
+{
+  "query": {
+    "match": {
+      "message": "error"
+    }
+  },
+  "size": 10,
+  "from": 0
+}
+
+##Renverra les 10 premiers résultats qui ont un horodatage compris entre 16:00:00 et 17:41:00 le 06 février 2025
+GET python-logs-2025.02.06/_search
+{
+  "query": {
+    "range": {
+      "@timestamp": {
+        "gte": "2025-02-06T16:00:00",
+        "lte": "2025-02-06T17:41:00"
+      }
+    }
+  },
+  "size": 10,
+  "from": 0
+}
+
+##Renverra les 10 premiers résultats qui ont un niveau de journalisation de errorou warning, triés par log.user_idchamp dans l'ordre croissant.
+GET python-logs-2025.02.06/_search
+{
+  "query": {
+    "terms": {
+      "log.level": ["error", "warning"]
+    }
+  },
+  "sort": [
+    {"log.user_id": "asc"}
+  ],
+  "size": 10,
+  "from": 0
+}
