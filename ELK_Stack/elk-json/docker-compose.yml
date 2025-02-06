@@ -1,9 +1,9 @@
 version: "3"
 services:
-  elasticsearchCSV:
+  elasticsearchJSON:
     image: elasticsearch:7.6.2
-    container_name: elasticsearchCSV
-    hostname: elasticsearchCSV
+    container_name: elasticsearchJSON
+    hostname: elasticsearchJSON
     restart: always
     environment:
       - "discovery.type=single-node"
@@ -15,36 +15,36 @@ services:
     volumes:
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
 
-  logstashCSV:
+  logstashJSON:
     image: logstash:7.6.2
-    container_name: logstashCSV
-    hostname: logstashCSV
+    container_name: logstashJSON
+    hostname: logstashJSON
     ports:
       - 9600:9600
       - 8089:8089
     restart: always
     links:
-      - elasticsearchCSV:elasticsearchCSV
+      - elasticsearchJSON:elasticsearchJSON
     depends_on:
-      - elasticsearchCSV
+      - elasticsearchJSON
     networks:
       - dockerelk
     volumes:
       - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
       - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
-      - ./data/data.csv:/usr/share/logstash/external-data/data.csv              # CSV data
+      - ./data/data-json.log:/usr/share/logstash/external-data/data-json.log    # JSON data
 
-  kibanaCSV:
+  kibanaJSON:
     image: kibana:7.6.2
-    container_name: kibanaCSV
+    container_name: kibanaJSON
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearchCSV:9200
+      - ELASTICSEARCH_HOSTS=http://elasticsearchJSON:9200
     ports:
       - "5601:5601"
     networks:
       - dockerelk
     depends_on:
-      - elasticsearchCSV
+      - elasticsearchJSON
 
 networks:
   dockerelk:

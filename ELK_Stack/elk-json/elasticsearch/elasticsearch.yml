@@ -1,0 +1,4 @@
+cluster.name: docker-cluster # Nom du cluster.
+node.name: docker-node # Nom du noeud.
+node.master: true ## true = le noeud est un noeud maître.
+network.host: 0.0.0.0 ## 0.0.0.0 = accèpte les connexions à partir de n'importe quelle adresse IP.

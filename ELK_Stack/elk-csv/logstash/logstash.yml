@@ -1,1 +1,1 @@
-xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearchMod3:9200" ]
+xpack.monitoring.elasticsearch.hosts: [ "http://elasticsearchCSV:9200" ]
