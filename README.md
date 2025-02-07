@@ -85,3 +85,8 @@ Cas d'usage: Recherche, analyse des logs et données en temps réel.
 - Pour ELK avec toutes les pipelines ci-dessus regroupées (elk-stack-multiple) :
   - docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.1
   - docker-compose up -d
+
+- Pour ELK Stack avec Metricbeat "surveillance monitoring administrators" (elk-monitoring-admin) :
+  - docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+  - docker-compose up -d
+  - Se connecter au localhost:5601
