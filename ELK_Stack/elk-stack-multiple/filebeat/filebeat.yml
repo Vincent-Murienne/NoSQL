@@ -5,4 +5,4 @@ filebeat.inputs:
     - /logs/*.log
 
 output.logstash:
-  hosts: ["logstashMultipleServices:5045"]
+  hosts: ["logstash:5045"]
