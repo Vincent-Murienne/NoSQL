@@ -58,22 +58,27 @@ Cas d'usage: Recherche, analyse des logs et données en temps réel.
         curl -s -H "Content-Type: application/x-ndjson" -XPOST localhost:9200/products/_bulk --data-binary "@products.json"
         printf "\n✅ Insertion products index to elastic node OK ✅ "
         
-- Pour Elastic Python API : 
+- Pour Elastic Python API (elk-python) :
+  - docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.1
   - docker run -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.11.1
   - Exécuter le script python : python3 elk_test.py
 
-- Pour ELK CSV :
+- Pour ELK CSV (elk-csv) :
+  - docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.1
   - docker-compose up -d
   - curl -X GET "0.0.0.0:9200/csv-data/_search?q=*" | jq
 
-- Pour ELK JSON :
+- Pour ELK JSON (elk-json) :
+  - docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.1
   - docker-compose up -d
   - curl -X GET "0.0.0.0:9200/json-data/_search?q=*" | jq
 
-- Pour ELK Serveur Apache Kibana :
+- Pour ELK Serveur Apache Kibana (elk-apache-server) :
+  - docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.1
   - docker-compose up -d
   - Se connecter au localhost:5601
 
-- Pour ELK Stack avec script Python logs pour diagram (with Filebeat) :
+- Pour ELK Stack avec script Python logs pour diagram avec Filebeat (elk-filebeat-python) :
+  - docker pull docker.elastic.co/elasticsearch/elasticsearch:7.11.1
   - docker-compose up -d
   - Se connecter au localhost:5601
